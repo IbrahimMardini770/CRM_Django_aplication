@@ -1,0 +1,95 @@
+{% extends "webapp/base.html" %}
+
+
+{% block content %}
+    
+    <h5> Welcom ,{{user}}!👋</h5>
+
+    <hr>
+
+    <a class="btn btn-outline-primary btn-sm" href="{%url 'create-record'%}">
+        Create a new record &nbsp; <i class="fa fa-plus-circle" aria-hidden="true"></i>
+    </a>
+
+    <hr>
+
+
+    <table class="table table-hover table-bordered">
+
+        <thead class="table-light">
+
+            <tr>
+
+                <th scope="col"> ID </th>
+                <th scope="col"> Full name </th>
+                <th scope="col"> Email </th>
+                <th scope="col"> Phone </th>
+                <th scope="col"> Address </th>
+                <th scope="col"> City </th>
+                <th scope="col"> Province </th>
+                <th scope="col"> Country </th>
+
+                <th scope="col"> Date joined </th>
+
+                <th scope="col"> View </th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+        {% if records %}
+
+            {% for record in records %}
+
+            <tr>
+
+                <td> {{record.id}} </td>
+
+                <td> {{record.first_name}}  {{record.last_name}} </td>
+
+                <td> {{record.email}} </td>
+
+                <td> {{record.phone}} </td>
+                <td> {{record.address}} </td>
+                <td> {{record.city}} </td>
+                <td> {{record.province}} </td>
+                <td> {{record.country}} </td>
+
+                <td> {{record.creation_date}} </td>
+
+                <td><a class="btn btn-success btn-sm" href="{%url 'record' record.id %}"> <i class="fa fa-eye" aria-hidden="true"></i> </td>
+
+
+                {% comment %} <td> <a class="btn btn-success btn-sm" href="{% url 'record' record.id %}"> <i class="fa fa-eye" aria-hidden="true"></i> </a> </td> {% endcomment %}
+
+            </tr>
+
+            {% endfor %}
+        
+        {% endif %}
+
+
+        </tbody>
+
+
+    </table>
+
+
+            
+
+{% endblock  %}
+
+{% comment %} 
+
+-- How django see user in this page?
+
+In a Django template, the variable user is automatically available if the user is logged in. This is because Django's authentication system automatically adds the user object to the request object for every authenticated request.
+Here's how Django knows about the user object in the template:
+1 Authentication Middleware: Django includes authentication middleware (django.contrib.auth.middleware.AuthenticationMiddleware) in its default middleware stack. This middleware is responsible for associating the logged-in user (if any) with the request object by adding the user attribute to the request.
+2 Login Process: When a user logs in using Django's authentication system (e.g., by submitting a login form), Django verifies the user's credentials and, if successful, sets the user attribute on the request object to the authenticated user object.
+3 Request Context: When rendering a template, Django includes the request object in the template context by default. This means that any attributes of the request object, including user, are accessible in the template without explicitly passing them from the view.
+4 Template Context Processors: Django includes default template context processors, one of which is django.contrib.auth.context_processors.auth, which adds the user object to the template context. This ensures that the user variable is available in all templates when using Django's authentication system.
+Therefore, when you render a template that includes {{ user }}, Django automatically populates it with the logged-in user's username or other relevant information. If the user is not logged in, {{ user }} will be AnonymousUser, which is a special user object representing an unauthenticated user.
+{% endcomment %}
