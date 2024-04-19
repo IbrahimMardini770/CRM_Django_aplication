@@ -159,3 +159,4 @@ def delete_rcord(request , pk):
     record.delete()
 
     return redirect("dashboard")
+
